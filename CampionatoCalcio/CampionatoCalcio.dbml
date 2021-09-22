@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="CampionatoCalcio" Class="CampionatoCalcioDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-681TJDB\SQLEXPRESS;Initial Catalog=CampionatoCalcio;Integrated Security=True" SettingsObjectName="CampionatoCalcio.Properties.Settings" SettingsPropertyName="CampionatoCalcioConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="campionatocalcio.allenatore" Member="allenatore">
+    <Type Name="allenatore">
+      <Column Name="CF_ALL" Type="System.String" DbType="NVarChar(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nomeSquadra" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="codContratto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="allenatore_contratto" Member="contratto" ThisKey="codContratto" OtherKey="codContratto" Type="contratto" />
+      <Association Name="allenatore_squadra" Member="squadra" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="squadra" />
+      <Association Name="persona_allenatore" Member="persona" ThisKey="CF_ALL" OtherKey="CF" Type="persona" IsForeignKey="true" />
+      <Association Name="istruzione_allenatore" Member="istruzione" ThisKey="CF_ALL" OtherKey="CF_ALL" Type="istruzione" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.arbitro" Member="arbitro">
+    <Type Name="arbitro">
+      <Column Name="CF_ARB" Type="System.String" DbType="NVarChar(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="persona_arbitro" Member="persona" ThisKey="CF_ARB" OtherKey="CF" Type="persona" IsForeignKey="true" />
+      <Association Name="partita_arbitro" Member="partita" ThisKey="CF_ARB" OtherKey="CF_ARB" Type="partita" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.campionato" Member="campionato">
+    <Type Name="campionato">
+      <Column Name="stagione" Type="System.String" DbType="NVarChar(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nome" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="luogo" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="iscrizione_campionato" Member="iscrizione" ThisKey="stagione" OtherKey="stagione" Type="iscrizione" IsForeignKey="true" />
+      <Association Name="presenza_campionato" Member="presenza" ThisKey="stagione" OtherKey="stagione" Type="presenza" IsForeignKey="true" />
+      <Association Name="giornata_campionato" Member="giornata" ThisKey="stagione" OtherKey="stagione" Type="giornata" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.classifica" Member="classifica">
+    <Type Name="classifica">
+      <Column Name="giornata" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nomeSquadra" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="partiteGiocate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="vittorie" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="pareggi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sconfitte" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="retiSegnate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="retiSubite" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="punteggio" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="classifica_giornata" Member="giornata1" ThisKey="giornata" OtherKey="giornata1" Type="giornata" />
+      <Association Name="classifica_squadra" Member="squadra" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="squadra" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.club" Member="club">
+    <Type Name="club">
+      <Column Name="nomeSquadra" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="comune" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="squadra_club" Member="squadra" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="squadra" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.contratto" Member="contratto">
+    <Type Name="contratto">
+      <Column Name="codContratto" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dataInizio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="dataScadenza" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ammonto" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Association Name="giocatore_contratto" Member="giocatore" ThisKey="codContratto" OtherKey="codContratto" Type="giocatore" IsForeignKey="true" />
+      <Association Name="allenatore_contratto" Member="allenatore" ThisKey="codContratto" OtherKey="codContratto" Type="allenatore" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.convocazione" Member="convocazione">
+    <Type Name="convocazione">
+      <Column Name="CF_GIO" Type="System.String" DbType="NVarChar(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CodPartita" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="convocazione_partita" Member="partita" ThisKey="CodPartita" OtherKey="CodPartita" Type="partita" />
+      <Association Name="convocazione_giocatore" Member="giocatore" ThisKey="CF_GIO" OtherKey="CF_GIO" Type="giocatore" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.coppa" Member="coppa">
+    <Type Name="coppa">
+      <Column Name="codCoppa" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="scudetti" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UCL" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CWC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UEL" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="vittoria_coppa" Member="vittoria" ThisKey="codCoppa" OtherKey="codCoppa" Type="vittoria" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.giocatore" Member="giocatore">
+    <Type Name="giocatore">
+      <Column Name="CF_GIO" Type="System.String" DbType="NVarChar(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="numMaglia" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ruolo" Type="System.String" DbType="NVarChar(3) NOT NULL" CanBeNull="false" />
+      <Column Name="partiteGiocate" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="capitano" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="goal" Type="System.String" DbType="NVarChar(3)" CanBeNull="true" />
+      <Column Name="tiri" Type="System.String" DbType="NVarChar(3)" CanBeNull="true" />
+      <Column Name="assist" Type="System.String" DbType="NVarChar(3)" CanBeNull="true" />
+      <Column Name="ammonizioni" Type="System.String" DbType="NVarChar(3)" CanBeNull="true" />
+      <Column Name="esplusioni" Type="System.String" DbType="NVarChar(3)" CanBeNull="true" />
+      <Column Name="codContratto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nomeSquadra" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="giocatore_squadra" Member="squadra" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="squadra" />
+      <Association Name="giocatore_contratto" Member="contratto" ThisKey="codContratto" OtherKey="codContratto" Type="contratto" />
+      <Association Name="persona_giocatore" Member="persona" ThisKey="CF_GIO" OtherKey="CF" Type="persona" IsForeignKey="true" />
+      <Association Name="convocazione_giocatore" Member="convocazione" ThisKey="CF_GIO" OtherKey="CF_GIO" Type="convocazione" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.giornata" Member="giornata">
+    <Type Name="giornata">
+      <Column Name="giornata" Member="giornata1" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="stagione" Type="System.String" DbType="NVarChar(7) NOT NULL" CanBeNull="false" />
+      <Association Name="giornata_campionato" Member="campionato" ThisKey="stagione" OtherKey="stagione" Type="campionato" />
+      <Association Name="partita_giornata" Member="partita" ThisKey="giornata1" OtherKey="giornata" Type="partita" IsForeignKey="true" />
+      <Association Name="classifica_giornata" Member="classifica" ThisKey="giornata1" OtherKey="giornata" Type="classifica" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.iscrizione" Member="iscrizione">
+    <Type Name="iscrizione">
+      <Column Name="stagione" Type="System.String" DbType="NVarChar(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nomeSquadra" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="iscrizione_squadra" Member="squadra" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="squadra" />
+      <Association Name="iscrizione_campionato" Member="campionato" ThisKey="stagione" OtherKey="stagione" Type="campionato" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.istruzione" Member="istruzione">
+    <Type Name="istruzione">
+      <Column Name="CF_ALL" Type="System.String" DbType="NVarChar(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CodPartita" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="istruzione_partita" Member="partita" ThisKey="CodPartita" OtherKey="CodPartita" Type="partita" />
+      <Association Name="istruzione_allenatore" Member="allenatore" ThisKey="CF_ALL" OtherKey="CF_ALL" Type="allenatore" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.nazionale" Member="nazionale">
+    <Type Name="nazionale">
+      <Column Name="nomeSquadra" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nazione" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="squadra_nazionale" Member="squadra" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="squadra" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.partita" Member="partita">
+    <Type Name="partita">
+      <Column Name="CodPartita" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="risultato" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="data" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="ora" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="CF_ARB" Type="System.String" DbType="NVarChar(16) NOT NULL" CanBeNull="false" />
+      <Column Name="codStadio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="stagione" Type="System.String" DbType="NVarChar(7) NOT NULL" CanBeNull="false" />
+      <Column Name="giornata" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="nomeSquadraCasa" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="nomeSquadraTrasferta" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="partita_arbitro" Member="arbitro" ThisKey="CF_ARB" OtherKey="CF_ARB" Type="arbitro" />
+      <Association Name="partita_stadio" Member="stadio" ThisKey="codStadio" OtherKey="codStadio" Type="stadio" />
+      <Association Name="partita_giornata" Member="giornata1" ThisKey="giornata" OtherKey="giornata1" Type="giornata" />
+      <Association Name="partita_squadra" Member="squadra" ThisKey="nomeSquadraCasa" OtherKey="nomeSquadra" Type="squadra" />
+      <Association Name="partita_squadra1" Member="squadra1" ThisKey="nomeSquadraTrasferta" OtherKey="nomeSquadra" Type="squadra" />
+      <Association Name="istruzione_partita" Member="istruzione" ThisKey="CodPartita" OtherKey="CodPartita" Type="istruzione" IsForeignKey="true" />
+      <Association Name="convocazione_partita" Member="convocazione" ThisKey="CodPartita" OtherKey="CodPartita" Type="convocazione" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.persona" Member="persona">
+    <Type Name="persona">
+      <Column Name="CF" Type="System.String" DbType="NVarChar(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nome" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="cognome" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="nazionalita" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="dataNascita" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="PRESIDENTE" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="GIOCATORE" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="ARBITRO" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="ALLENATORE" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Association Name="persona_allenatore" Member="allenatore1" ThisKey="CF" OtherKey="CF_ALL" Type="allenatore" />
+      <Association Name="persona_arbitro" Member="arbitro1" ThisKey="CF" OtherKey="CF_ARB" Type="arbitro" />
+      <Association Name="persona_giocatore" Member="giocatore1" ThisKey="CF" OtherKey="CF_GIO" Type="giocatore" />
+      <Association Name="persona_presidente" Member="presidente1" ThisKey="CF" OtherKey="CF_PRE" Type="presidente" />
+      <Association Name="presenza_persona" Member="presenza" ThisKey="CF" OtherKey="CF" Type="presenza" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.presenza" Member="presenza">
+    <Type Name="presenza">
+      <Column Name="stagione" Type="System.String" DbType="NVarChar(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CF" Type="System.String" DbType="NVarChar(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="presenza_campionato" Member="campionato" ThisKey="stagione" OtherKey="stagione" Type="campionato" />
+      <Association Name="presenza_persona" Member="persona" ThisKey="CF" OtherKey="CF" Type="persona" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.presidente" Member="presidente">
+    <Type Name="presidente">
+      <Column Name="CF_PRE" Type="System.String" DbType="NVarChar(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="presidente_squadra" Member="squadra" ThisKey="CF_PRE" OtherKey="CF_PRE" Type="squadra" />
+      <Association Name="persona_presidente" Member="persona" ThisKey="CF_PRE" OtherKey="CF" Type="persona" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.squadra" Member="squadra">
+    <Type Name="squadra">
+      <Column Name="nomeSquadra" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="modulo" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="stemma" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="CF_PRE" Type="System.String" DbType="NVarChar(16) NOT NULL" CanBeNull="false" />
+      <Column Name="NAZIONALE" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="CLUB" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Association Name="squadra_club" Member="club1" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="club" />
+      <Association Name="squadra_nazionale" Member="nazionale1" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="nazionale" />
+      <Association Name="classifica_squadra" Member="classifica" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="classifica" IsForeignKey="true" />
+      <Association Name="partita_squadra" Member="partita" ThisKey="nomeSquadra" OtherKey="nomeSquadraCasa" Type="partita" IsForeignKey="true" />
+      <Association Name="partita_squadra1" Member="partita1" ThisKey="nomeSquadra" OtherKey="nomeSquadraTrasferta" Type="partita" IsForeignKey="true" />
+      <Association Name="vittoria_squadra" Member="vittoria" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="vittoria" IsForeignKey="true" />
+      <Association Name="iscrizione_squadra" Member="iscrizione" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="iscrizione" IsForeignKey="true" />
+      <Association Name="giocatore_squadra" Member="giocatore" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="giocatore" IsForeignKey="true" />
+      <Association Name="allenatore_squadra" Member="allenatore" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="allenatore" IsForeignKey="true" />
+      <Association Name="presidente_squadra" Member="presidente" ThisKey="CF_PRE" OtherKey="CF_PRE" Type="presidente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.stadio" Member="stadio">
+    <Type Name="stadio">
+      <Column Name="codStadio" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nomeStadio" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="luogo" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="capienza" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="partita_stadio" Member="partita" ThisKey="codStadio" OtherKey="codStadio" Type="partita" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="campionatocalcio.vittoria" Member="vittoria">
+    <Type Name="vittoria">
+      <Column Name="codCoppa" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nomeSquadra" Type="System.String" DbType="NVarChar(30) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="vittoria_squadra" Member="squadra" ThisKey="nomeSquadra" OtherKey="nomeSquadra" Type="squadra" />
+      <Association Name="vittoria_coppa" Member="coppa" ThisKey="codCoppa" OtherKey="codCoppa" Type="coppa" />
+    </Type>
+  </Table>
+</Database>
